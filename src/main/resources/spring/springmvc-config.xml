@@ -18,7 +18,7 @@
         ">
 	<context:property-placeholder location="classpath*:config-*.properties" />
 	<!-- 把标记了@Controller注解的类转换为bean -->
-	<context:component-scan base-package="com.mrgan.club" />
+	<context:component-scan base-package="com.mrgan.club.action" />
 	<!-- 添加注解驱动 -->
 	<mvc:annotation-driven />
 	<context:annotation-config />
@@ -48,6 +48,16 @@
 					</bean>
 				</property>
 			</bean>
+		</property>
+	</bean>
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/pages/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
 		</property>
 	</bean>
 </beans>

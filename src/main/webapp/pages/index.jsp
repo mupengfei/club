@@ -1,9 +1,11 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta charset="UTF-8">
 <title>NF TMC</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- 引入 Bootstrap -->
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="resources/css/bootstrap-editable.css" rel="stylesheet">
@@ -18,35 +20,22 @@
 <!-- main.js -->
 </head>
 <body>
-	<p>
-		X-editable: create editable column in table.<br> As pk is unique
-		in each row, you should put it in data-pk attribute.
-	</p>
 	<div style="margin: 100px">
-		<table id="users" class="table table-bordered table-condensed">
+		<table id="shedules" class="table table-bordered table-condensed">
 			<tr>
 				<th>#</th>
-				<th>name</th>
-				<th>age</th>
+				<c:forEach items="${dates}" var="p">
+					<th>${p}</th>
+				</c:forEach>
 			</tr>
-			<tr>
-				<td>1</td>
-				<td><a href="#" data-pk="1">Mike</a></td>
-				<td>21</td>
-			</tr>
-
-			<tr>
-				<td>2</td>
-				<td><a href="#" data-pk="2">John</a></td>
-				<td>28</td>
-			</tr>
-
-			<tr>
-				<td>3</td>
-				<td><a href="#" data-pk="3">Mary</a></td>
-				<td>24</td>
-			</tr>
-
+			<c:forEach items="${items}" var="item">
+				<tr>
+					<th>${item}</th>
+					<c:forEach items="${dates}" var="p">
+						<th><a href="#" data-pk="${item}" data-name="${p}">${shedules[item][p]}</a></th>
+					</c:forEach>
+				</tr>
+			</c:forEach>
 		</table>
 	</div>
 
@@ -57,9 +46,8 @@
 	<script src="resources/js/bootstrap-editable.min.js"></script>
 	<script type="text/javascript">
 		$.fn.editable.defaults.mode = 'popup';
-		$('#users a').editable({
+		$('#shedules a').editable({
 			type : 'text',
-			name : 'username',
 			url : '/club/set.go',
 			title : 'Enter username',
 			success : function(response, newValue) {
