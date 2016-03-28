@@ -53,6 +53,7 @@
 			success : function(response, newValue) {
 				if (response.status == 'error')
 					return response.msg;
+				window.location.reload();
 			}
 		});
 	</script>
