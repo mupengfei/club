@@ -42,6 +42,22 @@ public class SheduleControl {
 		sheduleMap.get(item).put(date, value);
 	}
 
+	public void updateSheduleDate(String sheduleDate) {
+		info.setSheduleDate(sheduleDate.split(","));
+		String[] dates = sheduleDate.split(",");
+		for (Map.Entry<String, Map<String, String>> item : sheduleMap
+				.entrySet()) {
+			Map<String, String> dateMap = item.getValue();
+			Map<String, String> tmp = new HashMap();
+			for (String date : dates) {
+				tmp.put(date,
+						dateMap.get(date) == null ? "reserve" : dateMap
+								.get(date));
+			}
+			item.setValue(tmp);
+		}
+	}
+
 	public Map<String, Map<String, String>> getSheduleMap() {
 		return sheduleMap;
 	}

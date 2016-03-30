@@ -1,5 +1,7 @@
 package com.mrgan.club.action;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Map;
 import java.util.Set;
 
@@ -27,8 +29,8 @@ public class SheduleAction {
 	@ResponseBody
 	public ModelAndView init() {
 		ModelAndView mav = new ModelAndView("index");
-		mav.getModel().put("items", sheduleControl.getItems());
-		mav.getModel().put("dates", sheduleControl.getSheduleDate());
+		mav.getModel().put("items", sheduleControl.getInfo().getItems());
+		mav.getModel().put("dates", sheduleControl.getInfo().getSheduleDate());
 		mav.getModel().put("shedules", sheduleControl.getSheduleMap());
 		return mav;
 	}
@@ -43,5 +45,31 @@ public class SheduleAction {
 		logger.info(key + " " + value + " " + pk);
 		sheduleControl.setName(pk, key, value);
 		return new ResponseResult("ok", "ok");
+	}
+
+	@RequestMapping("/setDate")
+	public ModelAndView setDate(HttpServletRequest request,
+			HttpServletResponse response) {
+		String dates = request.getParameter("dates");
+		sheduleControl.updateSheduleDate(dates);
+		return new ModelAndView("redirect:/init.go");
+	}
+
+	@RequestMapping("/save")
+	public ModelAndView save(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		ObjectOutputStream oos = new ObjectOutputStream(System.out);
+		oos.writeObject(sheduleControl.getSheduleMap());
+		oos.flush();
+		oos.close();
+		return new ModelAndView("redirect:/init.go");
+	}
+
+	@RequestMapping("/rollback")
+	public ModelAndView rollback(HttpServletRequest request,
+			HttpServletResponse response) {
+		String dates = request.getParameter("dates");
+		sheduleControl.updateSheduleDate(dates);
+		return new ModelAndView("redirect:/init.go");
 	}
 }
